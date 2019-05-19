@@ -12,6 +12,7 @@ const throttle = (fn, delay) => {
 
 export default class Boing {
   constructor(props) {
+
     const validateUrl = url => {
       if (!url) {
         throw Error('Requires valid "url" for audio file');
@@ -54,12 +55,16 @@ export default class Boing {
         return Math.abs(hash);
       };
       const id = `boink-${hash(url)}`;
+
+
       let audioElement = document.createElement("audio");
+
 
       audioElement.id = id;
       audioElement.src = url;
       audioElement.preload = "auto";
 
+      
       document.body.appendChild(audioElement);
       return;
     };
@@ -74,7 +79,7 @@ export default class Boing {
     this.validateVolume = validateVolume;
   }
 
-  play = volume => {
+  play = (volume) => {
     this.validateVolume(volume);
 
     const audioElement = new Audio(this.url);
@@ -89,7 +94,7 @@ export default class Boing {
     return this;
   };
 
-  adjustVolume = volume => {
+  adjustVolume = (volume) => {
     this.volume = volume;
     return this;
   };
