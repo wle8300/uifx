@@ -1,43 +1,47 @@
 ~😬 include a demo!!!
-~ arg validation
 
-## Lightweight audio library designed for UI sound effects (sfx)
 
-I needed a library to play short audio clips to use for my JavaScript frontend apps. This library will preload your audio files, and only provides two methods:
 
-- `play()`
-- `adjustVolume(`0.0 ~ 1.0`)`
 
-The volume default is (`1.0`) which is the loudest possible for the device's speakers.
-
-## Install
+### Lightweight audio library designed for UI sound effects (UIfx)
 
 ```
-npm install --save beep-audio
+npm install --save uifx
 ```
 
 ## Usage
 
 ```
-import Beep from 'beep-audio'
-import PromptSuccess from './audio-files/success.mp3'
+import UIfx from 'uifx'
+import bellAudio from './my-sounds/bell.mp3'
 
-const noise = new Beep({
-  url: PromptSuccess,
-  volume: 0.4
+const bell = new UIfx({
+  url: bellAudio,
+  volume: 0.4,
+  throttleMs: 100
 })
 
-noise.adjustVolume(0.5).play()
-//or
-noise.adjustVolume(0.5)
-noise.play()
+// playback
+bell.play()
+
+// adjust volume
+bell.adjustVolume(0.5).play() // number between 0.0 ~ 1.0
+// ...or
+bell.adjustVolume(0.5)
+bell.play()
 ```
+
 
 ## Technical
 
-It uses the `Audio` ([mdn](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement)) API under-the-hood, and preloads audio files so it'll be immediately ready for playback without lag. Ideally your sfx should be locally packaged with your app. That's the fastest.
-
-Also, this differs from other audio libraries because it spawns a new player everytime you call the `beep.play()` method. This means you don't have to wait for the sfx to finish before playing it again. You can do a thousand of plays within 1sec if you wanted!
+It uses the `Audio` API under-the-hood ([Mozilla](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement)), and will preload audio files so assets are immediately ready for playback. Ideally you'll probably wanna package your mp3 files along with your app.
 
 The library doesn't have any dependencies.
+
+
+## Why use UIfx?
+ 
+ The main technical distinctive of `UIfx` is that it spawns a new audio player upon playback. This is a small, but important distinction from what SoundManager or Howler provide since short sound effects have different technical requirements than lengthy audio files (e.g., playing a song).
+
+
 
