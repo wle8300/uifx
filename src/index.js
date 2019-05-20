@@ -1,8 +1,6 @@
 export default class UIfx {
-  
   constructor(props) {
-  
-    const namespace = 'uifx'
+    const namespace = "uifx";
     const throttle = (fn, delay) => {
       let lastCall = 0;
       return function(...args) {
@@ -39,7 +37,6 @@ export default class UIfx {
     const volume = validateVolume(props.volume);
     const throttleMs = validateThrottleMs(props.throttleMs);
     const appendAudioElement = url => {
-      
       // hack to force browser
       // to preload audio file
 
@@ -78,7 +75,6 @@ export default class UIfx {
   }
 
   play = volume => {
-
     this.validateVolume(volume);
 
     const audioElement = new Audio(this.url);
@@ -94,11 +90,10 @@ export default class UIfx {
   };
 
   adjustVolume = volume => {
-    
     this.validateVolume(volume);
 
     this.volume = volume;
-    
+
     return this;
   };
 }
