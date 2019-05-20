@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,32 +6,52 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var throttle = function throttle(fn, delay) {
-  var lastCall = 0;
-  return function () {
-    var now = new Date().getTime();
-    if (now - lastCall < delay) {
-      return;
-    }
-    lastCall = now;
-    return fn.apply(undefined, arguments);
-  };
-};
-
-var Beep = function Beep(props) {
-  _classCallCheck(this, Beep);
+var UIfx = function UIfx(props) {
+  _classCallCheck(this, UIfx);
 
   _initialiseProps.call(this);
 
-  var url = props.url;
-  var volume = props.volume || 1.0;
-  var throttleMs = props.throttleMs || 0;
+  var namespace = "uifx";
+  var throttle = function throttle(fn, delay) {
+    var lastCall = 0;
+    return function () {
+      var now = new Date().getTime();
+      if (now - lastCall < delay) {
+        return;
+      }
+      lastCall = now;
+      return fn.apply(undefined, arguments);
+    };
+  };
+  var validateUrl = function validateUrl(url) {
+    if (!url) {
+      throw Error('Requires valid "url" for audio file');
+    } else return url;
+  };
+  var validateVolume = function validateVolume(volume) {
+    var message = '"Volume" must be an number between 0.0 and 1.0';
 
-  // hack to force browser
-  // to preload audio file
+    if (volume && typeof volume !== "number") throw Error(message);
+    if (volume < 0 || volume > 1) throw Error(message);
+
+    return volume ? volume : 1.0;
+  };
+  var validateThrottleMs = function validateThrottleMs(throttleMs) {
+    var message = '"throttleMs" must be a number greater than zero';
+
+    if (throttleMs && typeof throttleMs !== "number") throw Error(message);
+    if (throttleMs < 0) throw Error(message);
+
+    return throttleMs ? throttleMs : 0;
+  };
+  var url = validateUrl(props.url);
+  var volume = validateVolume(props.volume);
+  var throttleMs = validateThrottleMs(props.throttleMs);
   var appendAudioElement = function appendAudioElement(url) {
-    // hash function
-    // credit: https://stackoverflow.com/a/8831937/11330825
+    // hack to force browser
+    // to preload audio file
+
+    // hash function: https://stackoverflow.com/a/8831937/11330825
     var hash = function hash(str) {
       var hash = 0;
       if (str.length === 0) {
@@ -44,7 +64,7 @@ var Beep = function Beep(props) {
       }
       return Math.abs(hash);
     };
-    var id = "boink-" + hash(url);
+    var id = namespace + '-' + hash(url);
     var audioElement = document.createElement("audio");
 
     audioElement.id = id;
@@ -55,31 +75,28 @@ var Beep = function Beep(props) {
     return;
   };
 
-  // argument validation
-  if (!url) throw Error('Requires valid "url" for audio file');
-  if (volume) {
-    if (typeof volume !== "number" || volume < 0 || volume > 1.0) {
-      throw Error('"Volume" must be a number between 0.0 and 1.0');
-    }
-  }
-
   appendAudioElement(url);
 
   this.url = url;
   this.volume = volume;
   this.throttleMs = throttleMs;
-  this.play = throttle(this.play, throttleMs);
+  this.play = throttleMs > 0 ? throttle(this.play, throttleMs) : this.play;
   this.adjustVolume = this.adjustVolume;
+  this.validateVolume = validateVolume;
 };
 
 var _initialiseProps = function _initialiseProps() {
   var _this = this;
 
-  this.play = function () {
+  this.play = function (volume) {
+    _this.validateVolume(volume);
+
     var audioElement = new Audio(_this.url);
+    var newVolume = volume >= 0 && volume <= 1 ? volume : _this.volume;
 
     audioElement.addEventListener("loadeddata", function () {
-      audioElement.volume = _this.volume;
+      _this.volume = newVolume;
+      audioElement.volume = newVolume;
       audioElement.play();
     });
 
@@ -87,9 +104,12 @@ var _initialiseProps = function _initialiseProps() {
   };
 
   this.adjustVolume = function (volume) {
+    _this.validateVolume(volume);
+
     _this.volume = volume;
+
     return _this;
   };
 };
 
-exports.default = Beep;
+exports.default = UIfx;
