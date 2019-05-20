@@ -1,4 +1,4 @@
-export default class Beep {
+export default class UIfx {
   constructor(props) {
     const throttle = (fn, delay) => {
       let lastCall = 0;

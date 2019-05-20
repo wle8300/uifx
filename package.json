@@ -33,11 +33,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wle8300/boing.git"
+    "url": "git+https://github.com/wle8300/uifx.git"
   },
   "bugs": {
-    "url": "https://github.com/wle8300/boing/issues"
+    "url": "https://github.com/wle8300/uifx/issues"
   },
-  "homepage": "https://github.com/wle8300/boing#readme",
+  "homepage": "https://github.com/wle8300/uifx#readme",
   "license": "MIT"
 }
