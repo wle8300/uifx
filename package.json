@@ -5,10 +5,12 @@
   "description": "A lightweight sound library designed for UI sound effects (sfx)",
   "main": "build/index.js",
   "keywords": [
-    "es6",
-    "babel",
-    "eslint",
-    "npm package"
+    "react",
+    "sound",
+    "sound-effects",
+    "audio",
+    "sfx",
+    "uifx"
   ],
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --recursive",
