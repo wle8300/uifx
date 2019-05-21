@@ -1,22 +1,19 @@
-~😬 include a demo!!!
+### Audio library designed for UI sound effects (UIfx)
 
+Demo: https://wle8300.github.io/uifx-demo/
 
-
-
-### Lightweight audio library designed for UI sound effects (UIfx)
+## Usage
 
 ```
 npm install --save uifx
 ```
-
-## Usage
 
 ```
 import UIfx from 'uifx'
 import bellAudio from './my-sounds/bell.mp3'
 
 const bell = new UIfx({
-  url: bellAudio,
+  asset: bellAudio,
   volume: 0.4, // number between 0.0 ~ 1.0
   throttleMs: 100
 })
