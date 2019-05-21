@@ -12,10 +12,10 @@ export default class UIfx {
         return fn(...args);
       };
     };
-    const validateUrl = url => {
-      if (!url) {
-        throw Error('Requires valid "url" for audio file');
-      } else return url;
+    const validateAssetURI = asset => {
+      if (!asset) {
+        throw Error('Requires valid "asset" for audio file');
+      } else return asset;
     };
     const validateVolume = volume => {
       const message = '"Volume" must be an number between 0.0 and 1.0';
@@ -33,10 +33,10 @@ export default class UIfx {
 
       return throttleMs ? throttleMs : 0;
     };
-    const url = validateUrl(props.url);
+    const asset = validateAssetURI(props.asset);
     const volume = validateVolume(props.volume);
     const throttleMs = validateThrottleMs(props.throttleMs);
-    const appendAudioElement = url => {
+    const appendAudioElement = asset => {
       // hack to force browser
       // to preload audio file
 
@@ -53,20 +53,20 @@ export default class UIfx {
         }
         return Math.abs(hash);
       };
-      const id = `${namespace}-${hash(url)}`;
+      const id = `${namespace}-${hash(asset)}`;
       let audioElement = document.createElement("audio");
 
       audioElement.id = id;
-      audioElement.src = url;
+      audioElement.src = asset;
       audioElement.preload = "auto";
 
       document.body.appendChild(audioElement);
       return;
     };
 
-    appendAudioElement(url);
+    appendAudioElement(asset);
 
-    this.url = url;
+    this.asset = asset;
     this.volume = volume;
     this.throttleMs = throttleMs;
     this.play = throttleMs > 0 ? throttle(this.play, throttleMs) : this.play;
@@ -77,7 +77,7 @@ export default class UIfx {
   play = volume => {
     this.validateVolume(volume);
 
-    const audioElement = new Audio(this.url);
+    const audioElement = new Audio(this.asset);
 
     audioElement.addEventListener("loadeddata", () => {
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : this.volume;

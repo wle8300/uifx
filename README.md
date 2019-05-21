@@ -17,17 +17,21 @@ import bellAudio from './my-sounds/bell.mp3'
 
 const bell = new UIfx({
   url: bellAudio,
-  volume: 0.4,
+  volume: 0.4, // number between 0.0 ~ 1.0
   throttleMs: 100
 })
 
 // playback
 bell.play()
 
-// adjust volume
-bell.adjustVolume(0.5).play() // number between 0.0 ~ 1.0
-// ...or
-bell.adjustVolume(0.5)
+// temporarily change volume
+bell.play(0.25) // will play at 0.25 volume
+bell.play() // reverts back to 0.4 volume
+
+// set volume
+bell.setVolume(0.5).play()
+// ...chainable
+bell.setVolume(0.5)
 bell.play()
 ```
 
