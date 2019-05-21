@@ -14,7 +14,7 @@ export default class UIfx {
     };
     const validateAssetURI = asset => {
       if (!asset) {
-        throw Error('Requires valid "asset" for audio file');
+        throw Error('Requires valid URI path for "asset"');
       } else return asset;
     };
     const validateVolume = volume => {

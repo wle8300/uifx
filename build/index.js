@@ -23,10 +23,10 @@ var UIfx = function UIfx(props) {
       return fn.apply(undefined, arguments);
     };
   };
-  var validateUrl = function validateUrl(url) {
-    if (!url) {
-      throw Error('Requires valid "url" for audio file');
-    } else return url;
+  var validateAssetURI = function validateAssetURI(asset) {
+    if (!asset) {
+      throw Error('Requires valid URI path for "asset"');
+    } else return asset;
   };
   var validateVolume = function validateVolume(volume) {
     var message = '"Volume" must be an number between 0.0 and 1.0';
@@ -44,10 +44,10 @@ var UIfx = function UIfx(props) {
 
     return throttleMs ? throttleMs : 0;
   };
-  var url = validateUrl(props.url);
+  var asset = validateAssetURI(props.asset);
   var volume = validateVolume(props.volume);
   var throttleMs = validateThrottleMs(props.throttleMs);
-  var appendAudioElement = function appendAudioElement(url) {
+  var appendAudioElement = function appendAudioElement(asset) {
     // hack to force browser
     // to preload audio file
 
@@ -64,24 +64,24 @@ var UIfx = function UIfx(props) {
       }
       return Math.abs(hash);
     };
-    var id = namespace + '-' + hash(url);
+    var id = namespace + '-' + hash(asset);
     var audioElement = document.createElement("audio");
 
     audioElement.id = id;
-    audioElement.src = url;
+    audioElement.src = asset;
     audioElement.preload = "auto";
 
     document.body.appendChild(audioElement);
     return;
   };
 
-  appendAudioElement(url);
+  appendAudioElement(asset);
 
-  this.url = url;
+  this.asset = asset;
   this.volume = volume;
   this.throttleMs = throttleMs;
   this.play = throttleMs > 0 ? throttle(this.play, throttleMs) : this.play;
-  this.adjustVolume = this.adjustVolume;
+  this.setVolume = this.setVolume;
   this.validateVolume = validateVolume;
 };
 
@@ -91,19 +91,17 @@ var _initialiseProps = function _initialiseProps() {
   this.play = function (volume) {
     _this.validateVolume(volume);
 
-    var audioElement = new Audio(_this.url);
-    var newVolume = volume >= 0 && volume <= 1 ? volume : _this.volume;
+    var audioElement = new Audio(_this.asset);
 
     audioElement.addEventListener("loadeddata", function () {
-      _this.volume = newVolume;
-      audioElement.volume = newVolume;
+      audioElement.volume = volume >= 0 && volume <= 1 ? volume : _this.volume;
       audioElement.play();
     });
 
     return _this;
   };
 
-  this.adjustVolume = function (volume) {
+  this.setVolume = function (volume) {
     _this.validateVolume(volume);
 
     _this.volume = volume;
