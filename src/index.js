@@ -70,7 +70,7 @@ export default class UIfx {
     this.volume = volume;
     this.throttleMs = throttleMs;
     this.play = throttleMs > 0 ? throttle(this.play, throttleMs) : this.play;
-    this.adjustVolume = this.adjustVolume;
+    this.setVolume = this.setVolume;
     this.validateVolume = validateVolume;
   }
 
@@ -78,18 +78,16 @@ export default class UIfx {
     this.validateVolume(volume);
 
     const audioElement = new Audio(this.url);
-    const newVolume = volume >= 0 && volume <= 1 ? volume : this.volume;
 
     audioElement.addEventListener("loadeddata", () => {
-      this.volume = newVolume;
-      audioElement.volume = newVolume;
+      audioElement.volume = volume >= 0 && volume <= 1 ? volume : this.volume;
       audioElement.play();
     });
 
     return this;
   };
 
-  adjustVolume = volume => {
+  setVolume = volume => {
     this.validateVolume(volume);
 
     this.volume = volume;
