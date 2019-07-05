@@ -92,6 +92,7 @@ var _initialiseProps = function _initialiseProps() {
     _this.validateVolume(volume);
 
     var audioElement = new Audio(_this.asset);
+    audioElement.load();
 
     audioElement.addEventListener("loadeddata", function () {
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : _this.volume;
