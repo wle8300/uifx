@@ -78,6 +78,7 @@ export default class UIfx {
     this.validateVolume(volume);
 
     const audioElement = new Audio(this.asset);
+    audioElement.load();
 
     audioElement.addEventListener("loadeddata", () => {
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : this.volume;
