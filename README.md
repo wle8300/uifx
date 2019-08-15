@@ -5,7 +5,6 @@ Demo: https://wle8300.github.io/uifx-demo/
 ## Usage
 
 ```shell
-
 npm install --save uifx
 ```
 
