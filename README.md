@@ -1,6 +1,11 @@
-### Audio library designed for UI sound effects (UIfx)
+## <img src="logo.png" width="50" style="display: inline;" /> UIfx
 
-Demo: https://wle8300.github.io/uifx-demo/
+
+__UIfx__ is a library for playing sound fx on the web.
+
+## Demo
+
+https://wle8300.github.io/uifx-demo/
 
 ## Usage
 
