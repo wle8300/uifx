@@ -4,11 +4,12 @@ Demo: https://wle8300.github.io/uifx-demo/
 
 ## Usage
 
-```
+```shell
+
 npm install --save uifx
 ```
 
-```
+```js
 import UIfx from 'uifx'
 import bellAudio from './my-sounds/bell.mp3'
 
@@ -38,11 +39,11 @@ bell.setVolume(0.5).play()
 
 ## Technical
 
-It uses the [`HTMLAudioElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement) API under-the-hood so it's stable across all major desktop/mobile browsers. It also preloads audio files so sounds are immediately ready for playback.
+It uses the [`HTMLAudioElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement) API so it's available for all major desktop/mobile browsers. It also preloads audio files so sounds are immediately ready for playback.
 
-Even though it can preload audio, it's a good idea to package your audio files locally since you don't want to rely on a 3rd-party to host your audio files.
+Even though `UIfx` will preload audio over the network, it's usually advisable to package your audio files locally since you don't want to rely on a 3rd-party to host your audio files.
 
-The library doesn't have any dependencies.
+The library has zero dependencies.
 
 
 ## Why use UIfx?
