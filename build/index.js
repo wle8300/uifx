@@ -44,8 +44,8 @@ var UIfx = function UIfx(file, config) {
 
     return throttleMs ? throttleMs : 0;
   };
-  var volume = validateVolume(config.volume);
-  var throttleMs = validateThrottleMs(config.throttleMs);
+  var volume = validateVolume(config && config.volume);
+  var throttleMs = validateThrottleMs(config && config.throttleMs);
   var appendAudioElement = function appendAudioElement(file) {
     // hack to force browser
     // to preload audio file

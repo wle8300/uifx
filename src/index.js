@@ -33,8 +33,8 @@ export default class UIfx {
 
       return throttleMs ? throttleMs : 0;
     };
-    const volume = validateVolume(config.volume);
-    const throttleMs = validateThrottleMs(config.throttleMs);
+    const volume = validateVolume(config && config.volume);
+    const throttleMs = validateThrottleMs(config && config.throttleMs);
     const appendAudioElement = file => {
       // hack to force browser
       // to preload audio file
