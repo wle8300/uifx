@@ -1,4 +1,4 @@
-## <img src="logo.png" width="50" style="display: inline;" />
+### <img src="logo.png" width="50" style="display: inline;" />
 
 
 
@@ -9,7 +9,7 @@ __UIfx__ is a library for playing sound fx on the web.
 
 
 
-## Demo
+### Demo
 
 https://wle8300.github.io/uifx-demo/
 
@@ -17,7 +17,7 @@ https://wle8300.github.io/uifx-demo/
 
 
 
-## Usage
+### Usage
 
 ```shell
 npm install --save uifx
@@ -53,7 +53,7 @@ bell.setVolume(0.5).play()
 
 
 
-## Technical
+### Technical
 
 It uses the [`HTMLAudioElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement) API so it's available for all major desktop/mobile browsers. It also preloads audio files so sounds are immediately ready for playback.
 
@@ -64,7 +64,7 @@ The library has zero dependencies.
 
 
 
-## Why use UIfx?
+### Why use UIfx?
  
 It's designed specifically for soundfx so it preloads audio files to ensure it's immediately playable, and will spawns an audio player for each playback. This makes it lightweight and performant when compared to fully-fledged libraries like SoundManager or Howler.
 
