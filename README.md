@@ -3,7 +3,7 @@
 
 
 
-__UIfx__ is a library for playing sound fx on the web.
+__uifx__ is a library for playing sound fx on the web.
 
 
 <br/>
