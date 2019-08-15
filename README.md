@@ -1,4 +1,4 @@
-## <img src="logo.png" width="50" style="display: inline;" /> UIfx
+## <img src="logo.png" width="50" style="display: inline;" />
 
 
 
