@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var UIfx = function UIfx(props) {
+var UIfx = function UIfx(file, config) {
   _classCallCheck(this, UIfx);
 
   _initialiseProps.call(this);
@@ -23,10 +23,10 @@ var UIfx = function UIfx(props) {
       return fn.apply(undefined, arguments);
     };
   };
-  var validateAssetURI = function validateAssetURI(asset) {
-    if (!asset) {
-      throw Error('Requires valid URI path for "asset"');
-    } else return asset;
+  var validateURI = function validateURI(file) {
+    if (!file) {
+      throw Error('Requires valid URI path for "file"');
+    } else return file;
   };
   var validateVolume = function validateVolume(volume) {
     var message = '"Volume" must be an number between 0.0 and 1.0';
@@ -44,10 +44,9 @@ var UIfx = function UIfx(props) {
 
     return throttleMs ? throttleMs : 0;
   };
-  var asset = validateAssetURI(props.asset);
-  var volume = validateVolume(props.volume);
-  var throttleMs = validateThrottleMs(props.throttleMs);
-  var appendAudioElement = function appendAudioElement(asset) {
+  var volume = validateVolume(config.volume);
+  var throttleMs = validateThrottleMs(config.throttleMs);
+  var appendAudioElement = function appendAudioElement(file) {
     // hack to force browser
     // to preload audio file
 
@@ -64,20 +63,18 @@ var UIfx = function UIfx(props) {
       }
       return Math.abs(hash);
     };
-    var id = namespace + '-' + hash(asset);
+    var id = namespace + '-' + hash(file);
     var audioElement = document.createElement("audio");
 
     audioElement.id = id;
-    audioElement.src = asset;
+    audioElement.src = file;
     audioElement.preload = "auto";
 
     document.body.appendChild(audioElement);
-    return;
+    return file;
   };
 
-  appendAudioElement(asset);
-
-  this.asset = asset;
+  this.file = appendAudioElement(validateURI(file));
   this.volume = volume;
   this.throttleMs = throttleMs;
   this.play = throttleMs > 0 ? throttle(this.play, throttleMs) : this.play;
@@ -91,7 +88,7 @@ var _initialiseProps = function _initialiseProps() {
   this.play = function (volume) {
     _this.validateVolume(volume);
 
-    var audioElement = new Audio(_this.asset);
+    var audioElement = new Audio(_this.file);
     audioElement.load();
 
     audioElement.addEventListener("loadeddata", function () {

@@ -12,11 +12,13 @@ npm install --save uifx
 import UIfx from 'uifx'
 import bellAudio from './my-sounds/bell.mp3'
 
-const bell = new UIfx({
-  asset: bellAudio,
-  volume: 0.4, // number between 0.0 ~ 1.0
-  throttleMs: 100
-})
+const bell = new UIfx(
+  bellAudio,
+  {
+    volume: 0.4, // number between 0.0 ~ 1.0
+    throttleMs: 100
+  }
+)
 
 // playback
 bell.play()
@@ -26,23 +28,25 @@ bell.play(0.25) // will play at 0.25 volume
 bell.play() // reverts back to 0.4 volume
 
 // set volume
-bell.setVolume(0.5).play()
-// ...chainable
 bell.setVolume(0.5)
 bell.play()
+
+// ...chainable
+bell.setVolume(0.5).play()
 ```
 
 
 ## Technical
 
-It uses the `Audio` API under-the-hood ([Mozilla](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement)), and will preload audio files so assets are immediately ready for playback. Ideally you'll probably wanna package your mp3 files along with your app.
+It uses the [`HTMLAudioElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLAudioElement) API under-the-hood so it's stable across all major desktop/mobile browsers. It also preloads audio files so sounds are immediately ready for playback.
+
+Even though it can preload audio, it's a good idea to package your audio files locally since you don't want to rely on a 3rd-party to host your audio files.
 
 The library doesn't have any dependencies.
 
 
 ## Why use UIfx?
  
- The main technical distinctive of `UIfx` is that it spawns a new audio player upon playback. This is a small, but important distinction from what SoundManager or Howler provide since short sound effects have different technical requirements than lengthy audio files (e.g., playing a song).
-
+It's designed specifically for soundfx so it preloads audio files to ensure it's immediately playable, and will spawns an audio player for each playback. This makes it lightweight and performant when compared to fully-fledged libraries like SoundManager or Howler.
 
 
