@@ -1,5 +1,5 @@
 export default class UIfx {
-  constructor(props) {
+  constructor(file, config) {
     const namespace = "uifx";
     const throttle = (fn, delay) => {
       let lastCall = 0;
@@ -12,10 +12,10 @@ export default class UIfx {
         return fn(...args);
       };
     };
-    const validateAssetURI = asset => {
-      if (!asset) {
-        throw Error('Requires valid URI path for "asset"');
-      } else return asset;
+    const validateURI = file => {
+      if (!file) {
+        throw Error('Requires valid URI path for "file"');
+      } else return file;
     };
     const validateVolume = volume => {
       const message = '"Volume" must be an number between 0.0 and 1.0';
@@ -33,10 +33,9 @@ export default class UIfx {
 
       return throttleMs ? throttleMs : 0;
     };
-    const asset = validateAssetURI(props.asset);
-    const volume = validateVolume(props.volume);
-    const throttleMs = validateThrottleMs(props.throttleMs);
-    const appendAudioElement = asset => {
+    const volume = validateVolume(config.volume);
+    const throttleMs = validateThrottleMs(config.throttleMs);
+    const appendAudioElement = file => {
       // hack to force browser
       // to preload audio file
 
@@ -53,20 +52,18 @@ export default class UIfx {
         }
         return Math.abs(hash);
       };
-      const id = `${namespace}-${hash(asset)}`;
+      const id = `${namespace}-${hash(file)}`;
       let audioElement = document.createElement("audio");
 
       audioElement.id = id;
-      audioElement.src = asset;
+      audioElement.src = file;
       audioElement.preload = "auto";
 
       document.body.appendChild(audioElement);
-      return;
+      return file;
     };
 
-    appendAudioElement(asset);
-
-    this.asset = asset;
+    this.file = appendAudioElement(validateURI(file));
     this.volume = volume;
     this.throttleMs = throttleMs;
     this.play = throttleMs > 0 ? throttle(this.play, throttleMs) : this.play;
@@ -77,7 +74,7 @@ export default class UIfx {
   play = volume => {
     this.validateVolume(volume);
 
-    const audioElement = new Audio(this.asset);
+    const audioElement = new Audio(this.file);
     audioElement.load();
 
     audioElement.addEventListener("loadeddata", () => {
