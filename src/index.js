@@ -79,7 +79,7 @@ export default class UIfx {
 
     audioElement.addEventListener("loadeddata", () => {
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : this.volume;
-      audioElement.play();
+      audioElement.play().catch(() => {});
     });
 
     return this;
