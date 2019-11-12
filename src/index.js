@@ -71,7 +71,7 @@ export default class UIfx {
     this.validateVolume = validateVolume;
   }
 
-  play = volume => {
+  play = volume => new Promise((resolve, reject) => {
     this.validateVolume(volume);
 
     const audioElement = new Audio(this.file);
@@ -79,11 +79,11 @@ export default class UIfx {
 
     audioElement.addEventListener("loadeddata", () => {
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : this.volume;
-      audioElement.play();
+      audioElement.play().then(resolve).catch(reject);
     });
 
-    return this;
-  };
+    audioElement.addEventListener("error", reject);
+  });
 
   setVolume = volume => {
     this.validateVolume(volume);
