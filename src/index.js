@@ -79,7 +79,14 @@ export default class UIfx {
 
     audioElement.addEventListener("loadeddata", () => {
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : this.volume;
-      audioElement.play();
+      var audioElementPromise = audioElement.play();
+      audioElementPromise
+        .then(() => {
+          // autoplay started, everyting is ok
+        })
+        .catch(error => {
+          // autoplay was prevented, don't display any error messages
+        });
     });
 
     return this;
