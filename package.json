@@ -41,5 +41,6 @@
     "url": "https://github.com/wle8300/uifx/issues"
   },
   "homepage": "https://github.com/wle8300/uifx#readme",
+  "types": "index.d.ts",
   "license": "MIT"
 }
