@@ -72,14 +72,24 @@ export default class UIfx {
   }
 
   play = volume => {
+    
     this.validateVolume(volume);
 
     const audioElement = new Audio(this.file);
     audioElement.load();
-
     audioElement.addEventListener("loadeddata", () => {
+    
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : this.volume;
-      audioElement.play();
+    
+      const audioElementPromised = audioElement.play();
+      
+      audioElementPromised
+        .then(() => {
+          // autoplay started, everyting is ok
+        })
+        .catch(error => {
+          console.log(`UIfx says: "had a problem playing file: ${this.file}"`)
+        });
     });
 
     return this;
