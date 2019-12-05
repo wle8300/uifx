@@ -1,7 +1,7 @@
 {
   "name": "uifx",
   "author": "William Le <email@wle8300.com>",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "A lightweight sound library designed for UI sound effects (sfx)",
   "main": "build/index.js",
   "keywords": [
