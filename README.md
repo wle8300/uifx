@@ -3,7 +3,7 @@
 
 
 
-__uifx__ is a library for playing sound fx on the web.
+__uifx__ is a library for playing sound effects on the web
 
 
 <br/>
@@ -16,7 +16,7 @@ __uifx__ is a library for playing sound fx on the web.
 https://wle8300.github.io/uifx-demo/
 
 
-
+<br/>
 
 
 ### Usage
@@ -41,18 +41,18 @@ const bell = new UIfx(
 bell.play()
 
 // temporarily change volume
-bell.play(0.25) // will play at 0.25 volume
-bell.play() // reverts back to 0.4 volume
+bell.play(0.25)   // plays at 0.25 volume
+bell.play()       // reverts to 0.4 volume
 
 // set volume
 bell.setVolume(0.5)
-bell.play()
+bell.play()       // plays at 0.5 volume
 
-// ...chainable
+// ...also chainable!
 bell.setVolume(0.5).play()
 ```
 
-
+<br/>
 
 
 ### Technical
@@ -63,7 +63,10 @@ Even though `UIfx` will preload audio over the network, it's usually advisable t
 
 The library has zero dependencies.
 
+TypeScript definitions are included.
 
+
+<br/>
 
 
 ### Why use UIfx?
