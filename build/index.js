@@ -86,14 +86,22 @@ var _initialiseProps = function _initialiseProps() {
   var _this = this;
 
   this.play = function (volume) {
+
     _this.validateVolume(volume);
 
     var audioElement = new Audio(_this.file);
     audioElement.load();
-
     audioElement.addEventListener("loadeddata", function () {
+
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : _this.volume;
-      audioElement.play();
+
+      var audioElementPromised = audioElement.play();
+
+      audioElementPromised.then(function () {
+        // autoplay started, everyting is ok
+      }).catch(function (error) {
+        console.log('UIfx says: "had a problem playing file: ' + _this.file + '"');
+      });
     });
 
     return _this;
