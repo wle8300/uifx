@@ -15,7 +15,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --recursive",
     "test-cov": "babel-node isparta cover --report html --report text node_modules/.bin/_mocha",
-    "build": "babel src --out-dir build",
+    "build": "babel src --out-dir build --copy-files",
     "clean": "rm -rf build",
     "lint": "eslint src test"
   },
@@ -41,6 +41,6 @@
     "url": "https://github.com/wle8300/uifx/issues"
   },
   "homepage": "https://github.com/wle8300/uifx#readme",
-  "types": "index.d.ts",
+  "types": "build/index.d.ts",
   "license": "MIT"
 }
