@@ -17,6 +17,14 @@ export default class UIfx {
         throw Error('Requires valid URI path for "file"');
       } else return file;
     };
+    const validatePlaybackRate = rate => {
+      const message = '"PlaybackRate" must be a number greater than 0.25';
+
+      if (rate && typeof rate !== "number") throw Error(message);
+      if (rate < 0.25) throw Error(message);
+
+      return rate ? rate : 1.0;
+    };
     const validateVolume = volume => {
       const message = '"Volume" must be an number between 0.0 and 1.0';
 
@@ -35,6 +43,7 @@ export default class UIfx {
     };
     const volume = validateVolume(config && config.volume);
     const throttleMs = validateThrottleMs(config && config.throttleMs);
+    const playbackRate = validatePlaybackRate(config && config.playbackRate);
     const appendAudioElement = file => {
       // hack to force browser
       // to preload audio file
@@ -65,10 +74,13 @@ export default class UIfx {
 
     this.file = appendAudioElement(validateURI(file));
     this.volume = volume;
+    this.playbackRate = playbackRate;
     this.throttleMs = throttleMs;
     this.play = throttleMs > 0 ? throttle(this.play, throttleMs) : this.play;
     this.setVolume = this.setVolume;
+    this.setPlaybackRate = this.setPlaybackRate;
     this.validateVolume = validateVolume;
+    this.validatePlaybackRate = validatePlaybackRate;
   }
 
   play = volume => {
@@ -80,6 +92,7 @@ export default class UIfx {
     audioElement.addEventListener("loadeddata", () => {
     
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : this.volume;
+      audioElement.playbackRate = this.playbackRate;
     
       const audioElementPromised = audioElement.play();
       
@@ -97,9 +110,13 @@ export default class UIfx {
 
   setVolume = volume => {
     this.validateVolume(volume);
-
     this.volume = volume;
+    return this;
+  };
 
+  setPlaybackRate = rate => {
+    this.validatePlaybackRate(rate);
+    this.playbackRate = rate;
     return this;
   };
 }

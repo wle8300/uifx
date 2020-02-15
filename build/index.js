@@ -28,6 +28,14 @@ var UIfx = function UIfx(file, config) {
       throw Error('Requires valid URI path for "file"');
     } else return file;
   };
+  var validatePlaybackRate = function validatePlaybackRate(rate) {
+    var message = '"PlaybackRate" must be a number greater than 0.25';
+
+    if (rate && typeof rate !== "number") throw Error(message);
+    if (rate < 0.25) throw Error(message);
+
+    return rate ? rate : 1.0;
+  };
   var validateVolume = function validateVolume(volume) {
     var message = '"Volume" must be an number between 0.0 and 1.0';
 
@@ -46,6 +54,7 @@ var UIfx = function UIfx(file, config) {
   };
   var volume = validateVolume(config && config.volume);
   var throttleMs = validateThrottleMs(config && config.throttleMs);
+  var playbackRate = validatePlaybackRate(config && config.playbackRate);
   var appendAudioElement = function appendAudioElement(file) {
     // hack to force browser
     // to preload audio file
@@ -76,10 +85,13 @@ var UIfx = function UIfx(file, config) {
 
   this.file = appendAudioElement(validateURI(file));
   this.volume = volume;
+  this.playbackRate = playbackRate;
   this.throttleMs = throttleMs;
   this.play = throttleMs > 0 ? throttle(this.play, throttleMs) : this.play;
   this.setVolume = this.setVolume;
+  this.setPlaybackRate = this.setPlaybackRate;
   this.validateVolume = validateVolume;
+  this.validatePlaybackRate = validatePlaybackRate;
 };
 
 var _initialiseProps = function _initialiseProps() {
@@ -94,6 +106,7 @@ var _initialiseProps = function _initialiseProps() {
     audioElement.addEventListener("loadeddata", function () {
 
       audioElement.volume = volume >= 0 && volume <= 1 ? volume : _this.volume;
+      audioElement.playbackRate = _this.playbackRate;
 
       var audioElementPromised = audioElement.play();
 
@@ -109,9 +122,13 @@ var _initialiseProps = function _initialiseProps() {
 
   this.setVolume = function (volume) {
     _this.validateVolume(volume);
-
     _this.volume = volume;
+    return _this;
+  };
 
+  this.setPlaybackRate = function (rate) {
+    _this.validatePlaybackRate(rate);
+    _this.playbackRate = rate;
     return _this;
   };
 };
