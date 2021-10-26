@@ -53,13 +53,16 @@ export default class UIfx {
         return Math.abs(hash);
       };
       const id = `${namespace}-${hash(file)}`;
-      let audioElement = document.createElement("audio");
 
-      audioElement.id = id;
-      audioElement.src = file;
-      audioElement.preload = "auto";
+      if (!document.getElementById(id)) {
+        let audioElement = document.createElement("audio");
 
-      document.body.appendChild(audioElement);
+        audioElement.id = id;
+        audioElement.src = file;
+        audioElement.preload = "auto";
+
+        document.body.appendChild(audioElement);
+      }
       return file;
     };
 
